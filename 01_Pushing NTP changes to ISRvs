@@ -1,0 +1,30 @@
+SJCAZIMAMAC:ansible naveen$ ansible-playbook -i myinventory ntp-config-01.yml -u netadmin -k
+
+
+
+---
+  
+  - name: PLAY 1 - DEPLOYING NTP CONFIGURATIONS ON IOS
+    hosts: iosxe
+    connection: network_cli
+    gather_facts: no
+
+    tasks:
+
+      - name: TASK 1 in PLAY 1 - ENSURE NTP COMMANDS EXIST ON IOS DEVICES
+        ios_config:
+          commands:
+            - no ntp source GigabitEthernet 4
+            - no ntp server 10.200.7.1
+            - no ntp server 10.202.6.250
+            - ntp server vrf mgmt-net 10.200.7.1
+            - ntp server vrf mgmt-net 10.202.6.250
+
+      - name: TASK 2 in PLAY 1 - write memory ON IOS DEVICES
+        ios_config:
+          commands:
+            - write memory
+
+
+
+
